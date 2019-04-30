@@ -40,25 +40,25 @@ def load_ngrams(id_to_captions, n):
 
 def tf_idf(id_to_ngrams, document_frequencies, n, image_id, candidate):
     candidate_ngrams = sentence_to_ngrams(candidate, n)
-    h_l = sum(candidate_ngrams.values())
-    if h_l == 0:
+    total_frequency = sum(candidate_ngrams.values())
+    if total_frequency == 0:
         return np.zeros(len(document_frequencies))
     num_examples = len(id_to_ngrams)
     tf_idf_weight = []
     for gram in document_frequencies.keys():
-        tf_idf_weight.append(candidate_ngrams[gram] / h_l * np.log(
+        tf_idf_weight.append(candidate_ngrams[gram] / total_frequency * np.log(
             num_examples / document_frequencies[gram]))
     return np.array(tf_idf_weight)
 
 
 def tf_idf_known(id_to_ngrams, document_frequencies, image_id, reference_ngrams):
-    h_l = sum(reference_ngrams.values())
-    if h_l == 0:
+    total_frequency = sum(reference_ngrams.values())
+    if total_frequency == 0:
         return np.zeros(len(document_frequencies))
     num_examples = len(id_to_ngrams)
     tf_idf_weight = []
     for gram in document_frequencies.keys():
-        tf_idf_weight.append(reference_ngrams[gram] / h_l * np.log(
+        tf_idf_weight.append(reference_ngrams[gram] / total_frequency * np.log(
             num_examples / document_frequencies[gram]))
     return np.array(tf_idf_weight)
 
